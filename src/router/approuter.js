@@ -14,7 +14,8 @@ export default new VueRouter({
     {path: '/info', component: Info},
     {path: '/bankCard', component: BankCard},
     {path: '/apply', component: Apply},
-    {path: '/success', component: Success}
+    {path: '/success', component: Success},
+    {path: '*', redirect: '/'}
   ],
   scrollBehavior (to, from, savedPosition) {    /**跳转滚动,需配置mode才可生效**/
     return savedPosition || { x: 0, y: 0 }
