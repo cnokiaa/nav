@@ -5,7 +5,7 @@ import App from './App'
 import VueRouter from 'vue-router'
 import router from './router/approuter'
 import flexible from './assets/js/flexible'
-
+import 'mint-ui/lib/style.css'
 import './assets/css/reset.css'
 
 Vue.use(VueRouter)
@@ -13,7 +13,6 @@ Vue.use(VueRouter)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  template: '<App/>',
-  components: { App },
-  router: router,
+  router,
+  render: h => h(App)
 })

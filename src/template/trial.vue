@@ -27,7 +27,7 @@
 			<h2>申请周期</h2>
 			<div class="cycle-part">
 				<div class="cycle-part-con clearfix">
-					<span class="" v-for="item in product.data.ratelist" @click="chooseZq">{{item.periods}}{{item.lenunit}}</span>
+					<span :class="{'selected' : (index == curIndex)}" v-for="(item, index) in product.data.ratelist" @click="chooseZq(index)">{{item.periods}}{{item.lenunit}}</span>
 				</div>
 			</div>
 			<transition name="fade">
@@ -58,10 +58,12 @@
 </template>
 
 <script>
+import { Toast, Indicator } from 'mint-ui'
 export default{
 	name: 'home',
 	data() {
 		return {
+			curIndex: '-1',
 			applyment: '',
 			showType: false,
 			product: {"status":"success","errcode":"0000","errmsg":"成功","data":{"systime":"2016-11-01 13:39:47","sid":"886454F107A64A19BDD35E8E6D4E5890","ratelist":[{"periods":3,"rate":500.0,"productno":"PP01","periodlen":1,"lenunit":"Y"},{"periods":6,"rate":1000.0,"productno":"PP02","periodlen":1,"lenunit":"M"}],"hiappamt":1000000,"orgid":"orgfls","ismark":0,"hasdebt":"N","discrate":0,"lowappamt":10000,"mobile":"13534343434","busid":"queryproducts"}},
@@ -79,9 +81,14 @@ export default{
 		}
 	},
 	methods: {
-		chooseZq: function() {
-			this.$data.showType = true;
+		chooseZq: function(index) {
 			if(this.$data.applyment == '') {
+				Toast({message: '请输入金额', duration: 1000});
+			} else {
+				Indicator.open();
+				this.$data.curIndex = index;
+				this.$data.showType = true;
+				Indicator.close();
 			}
 		},
 		submitClick: function() {
