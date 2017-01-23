@@ -18,7 +18,7 @@
 		<h2 class="apply-tip">申请金额</h2>
 		<div class="input-apply">
 			<label for="">金额：</label>
-			<input type="text" 	placeholder="最低1000元，最高10000元" :value="applyment" v-model="applyment"/>
+			<input type="text" 	:placeholder="'最低'+limitMin+'元，最高'+limitMax+'元'" :value="applyment" @blur="checkM" v-model="applyment"/>
 			<span class="clearfix"><b></b>￥</span>
 		</div>
 		<p class="tips">温馨提示：实际到账金额以审批结果为准</p>
@@ -34,14 +34,14 @@
 			<ul class="replay-det" v-if="showType">
 				<li>
 					<span>到账金额：</span>
-					<strong class="red">12元</strong>
+					<strong class="red">{{dz}}元</strong>
 				</li>
 				<li>
 					<span>一次性服务费：</span>
-					<strong><em>12元(</em>已抵扣<em>1元</em>)</strong>
+					<strong><em>{{fw}}元(</em>已抵扣<em>{{dk}}元</em>)</strong>
 				</li>
 				<li>
-					<span>您需在12一次性还款<em class="red">12元</em></span>
+					<span>您需在{{sj}}一次性还款<em class="red">{{hk}}元</em></span>
 				</li>
 			</ul>
 			</transition>
@@ -66,11 +66,29 @@ export default{
 			curIndex: '-1',
 			applyment: '',
 			showType: false,
+			limitMin: '',
+			limitMax: '',
+			dz: '',fw: '',dk: '',sj: '',hk: '',
 			product: {"status":"success","errcode":"0000","errmsg":"成功","data":{"systime":"2016-11-01 13:39:47","sid":"886454F107A64A19BDD35E8E6D4E5890","ratelist":[{"periods":3,"rate":500.0,"productno":"PP01","periodlen":1,"lenunit":"Y"},{"periods":6,"rate":1000.0,"productno":"PP02","periodlen":1,"lenunit":"M"}],"hiappamt":1000000,"orgid":"orgfls","ismark":0,"hasdebt":"N","discrate":0,"lowappamt":10000,"mobile":"13534343434","busid":"queryproducts"}},
+			plan: {
+			    "status": "success",
+			    "data": {
+			        "accountMoney": "1110.60",
+			        "eachMoneyBFredPacket": "0.00",
+			        "eachMoney": "205.66",
+			        "dueTime": "1",
+			        "oneOffPayment": "123.40",
+			        "totalMoney": "1234.00",
+			        "discount": "0.00",
+			        "feeFlag": "YCX",
+			        "hongbao":"12.00",
+			        "time":"20150202"
+			    }
+			},
 		}
 	},
 	mounted() {
-		var proData = this.$data.product.data;
+		let proData = this.$data.product.data;
 		for(let i of Object.keys(proData.ratelist)) {
 			switch(proData.ratelist[i].lenunit) {
 			 	case 'D':proData.ratelist[i].lenunit = '天';break;
@@ -79,26 +97,55 @@ export default{
 			 	case 'Y':proData.ratelist[i].lenunit = '年';break;
 			}
 		}
+		this.$data.limitMin = proData.lowappamt;
+		this.$data.limitMax = proData.hiappamt;
 	},
 	methods: {
+		closeSType: function() {
+			this.$data.showType = false;
+			this.$data.curIndex = '-1';
+		},
+		checkM: function() {
+			let $applyment = this.$data.applyment;
+			if($applyment == '') {
+				this.closeSType();
+				return Toast({message: '请输入金额', duration: 1000});
+			} else if($applyment > this.$data.limitMax || $applyment < this.$data.limitMin) {
+				this.closeSType();
+				return Toast({message: '超出金额范围', duration: 1000});
+			}
+		},
+		checkZq: function() {
+			if(this.$data.curIndex < 0){
+				return Toast({message: '请选择周期', duration: 1500});
+			}
+		},
 		chooseZq: function(index) {
-			if(this.$data.applyment == '') {
-				Toast({message: '请输入金额', duration: 1000});
-			} else {
-				Indicator.open();
+			if(!this.checkM()){
+				//Indicator.open();
 				this.$data.curIndex = index;
+
+				let plan = this.$data.plan.data;
+				this.$data.dz = plan.accountMoney;
+				this.$data.fw = plan.oneOffPayment;
+				this.$data.dk = plan.hongbao;
+				this.$data.sj = plan.time;
+				this.$data.hk = plan.totalMoney;
+
 				this.$data.showType = true;
-				Indicator.close();
+				//Indicator.close();
 			}
 		},
 		submitClick: function() {
-			this.$router.push("upload/abc");
+			if(!this.checkM() && !this.checkZq()){
+				this.$router.push("upload/abc");
+			}
 		}
 	}
 }
 </script>
 
-<style>
+<style lang="scss">
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }
@@ -333,5 +380,32 @@ header p {
 }
 .connect-con a {
 	border-bottom: 1px solid #c3c3c3;
+}
+.usemoney{
+    overflow: hidden;
+    margin: 1rem -0.85rem 0;
+    border-top: 1rem solid #efeff4;
+    padding: 0 0.85rem;
+    line-height:2rem;
+	span{
+		float:left;
+	}
+	strong{
+		float:right;
+		a:after{
+			content:'';
+			width:.5rem;
+		    height:.5rem;
+		    border-right:2px solid #c4c4c4;
+		    border-bottom:2px solid #c4c4c4;
+		    -moz-transform:rotate(-45deg);
+		    -o-transform:rotate(-45deg);
+		    -webkit-transform: rotate(-45deg);
+		    -ms-transform: rotate(-45deg);
+		    transform: rotate(-45deg);
+		    display: inline-block;
+		    margin: 0 .2rem;
+		}
+	}
 }
 </style>

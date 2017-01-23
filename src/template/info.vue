@@ -124,22 +124,67 @@
 			<span>我确认信息真实有效。</span>
 		</div>
 		<div class="next-step" @click="submitClick">下一步</div>
+		<picker :slots="slots" @change="onValuesChange"></picker>
 	</div>
 </template>
 <script>
 import Navpage from '../components/nav.vue'
+import { Picker } from 'mint-ui'
 export default{
     name: 'info',
     data() {
-        return {}
+        return {
+			shen: {"status":"success","errcode":"0000","errmsg":"成功","data":{"provinces":[{"provincecn":"黑龙江省","provinceid":"230000"},{"provincecn":"湖南省","provinceid":"430000"},{"provincecn":"四川省","provinceid":"510000"},{"provincecn":"辽宁省","provinceid":"210000"},{"provincecn":"安徽省","provinceid":"340000"},{"provincecn":"福建省","provinceid":"350000"},{"provincecn":"天津市","provinceid":"120000"},{"provincecn":"宁夏回族自治区","provinceid":"640000"},{"provincecn":"重庆市","provinceid":"500000"},{"provincecn":"河南省","provinceid":"410000"},{"provincecn":"江西省","provinceid":"360000"},{"provincecn":"吉林省","provinceid":"220000"},{"provincecn":"内蒙古自治区","provinceid":"150000"},{"provincecn":"江苏省","provinceid":"320000"},{"provincecn":"山西省","provinceid":"140000"},{"provincecn":"云南省","provinceid":"530000"},{"provincecn":"海南省","provinceid":"460000"},{"provincecn":"西藏自治区","provinceid":"540000"},{"provincecn":"上海市","provinceid":"310000"},{"provincecn":"青海省","provinceid":"630000"},{"provincecn":"广西壮族自治区","provinceid":"450000"},{"provincecn":"湖北省","provinceid":"420000"},{"provincecn":"新疆维吾尔自治区","provinceid":"650000"},{"provincecn":"北京市","provinceid":"110000"},{"provincecn":"广东省","provinceid":"440000"},{"provincecn":"浙江省","provinceid":"330000"},{"provincecn":"陕西省","provinceid":"610000"},{"provincecn":"河北省","provinceid":"130000"},{"provincecn":"甘肃省","provinceid":"620000"},{"provincecn":"贵州省","provinceid":"520000"},{"provincecn":"山东省","provinceid":"370000"}]}},
+    		qu: {"status":"success","errcode":"0000","errmsg":"成功","data":{"areas":[{"areacn":"长安区","areaid":"130102"},{"areacn":"桥东区","areaid":"130103"},{"areacn":"桥西区","areaid":"130104"},{"areacn":"新华区","areaid":"130105"},{"areacn":"井陉矿区","areaid":"130107"},{"areacn":"裕华区","areaid":"130108"},{"areacn":"井陉县","areaid":"130121"},{"areacn":"正定县","areaid":"130123"},{"areacn":"栾城县","areaid":"130124"},{"areacn":"行唐县","areaid":"130125"},{"areacn":"灵寿县","areaid":"130126"},{"areacn":"高邑县","areaid":"130127"},{"areacn":"深泽县","areaid":"130128"},{"areacn":"赞皇县","areaid":"130129"},{"areacn":"无极县","areaid":"130130"},{"areacn":"平山县","areaid":"130131"},{"areacn":"元氏县","areaid":"130132"},{"areacn":"赵　县","areaid":"130133"},{"areacn":"辛集市","areaid":"130181"},{"areacn":"藁城市","areaid":"130182"},{"areacn":"晋州市","areaid":"130183"},{"areacn":"新乐市","areaid":"130184"},{"areacn":"鹿泉市","areaid":"130185"}]}},
+    		shi: {"status":"success","errcode":"0000","errmsg":"成功","data":{"citys":[{"citycn":"秦皇岛市","cityid":"130300"},{"citycn":"张家口市","cityid":"130700"},{"citycn":"承德市","cityid":"130800"},{"citycn":"邢台市","cityid":"130500"},{"citycn":"廊坊市","cityid":"131000"},{"citycn":"保定市","cityid":"130600"},{"citycn":"石家庄市","cityid":"130100"},{"citycn":"邯郸市","cityid":"130400"},{"citycn":"沧州市","cityid":"130900"},{"citycn":"唐山市","cityid":"130200"},{"citycn":"衡水市","cityid":"131100"}]}},
+			slots: [
+				{
+				flex: 1,
+				values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
+				className: 'slot1',
+				textAlign: 'center'
+				}, {
+				divider: true,
+				content: '-',
+				className: 'slot2'
+				}, {
+				flex: 1,
+				values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
+				className: 'slot3',
+				textAlign: 'center'
+				}, {
+				divider: true,
+				content: '-',
+				className: 'slot2'
+				},{
+				flex: 1,
+				values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
+				className: 'slot3',
+				textAlign: 'center'
+				}
+			],
+		}
     },
+	mounted: {
+		// for(var i = 0; i < this.data.shen.data.provinces.length; i ++) {
+		// 	plist[i] = this.data.shen.data.provinces[i].provincecn;
+		// 	plistid[i] = this.data.shen.data.provinces[i].provinceid;
+		// }
+	},
     methods: {
+		onValuesChange(picker, values) {
+			if (values[0] > values[1]) {
+				picker.setSlotValue(1, values[0]);
+			}
+		},
         submitClick: function(){
             this.$router.push("/bankCard");
         }
     },
 	components: {
-		navpage : Navpage
+		navpage : Navpage,
+		picker : Picker
+
 	}
 }
 </script>

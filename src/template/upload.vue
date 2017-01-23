@@ -6,49 +6,64 @@
 		</div>
 		<div class="tipupload">
 			<p>请按图示要求上传您的身份证照片</p>
-			<strong>错误示例</strong>
+			<strong @click="showWrongT">错误示例</strong>
 		</div>
 		<div class="upload">
 			<div class="upload-con clearfix">
 				<div class="pic-part clearfix">
-					<div class="example-pic">
-						<img big-src="../images/bigcard_1.jpg" src="../assets/images/facecard.jpg" alt="反面照">
+					<div class="example-pic" @click="showPic(0)">
+						<img src="../assets/images/facecard.jpg" alt="反面照">
 					</div>
 					<div class="take-photo idcard-back-bg">
 						<img src="" alt="">
 					</div>
 				</div>
 				<div class="pic-part clearfix">
-					<div class="example-pic">
-						<img big-src="../images/bigcard_2.jpg" src="../assets/images/backcard.jpg" alt="正面国徽面照">
+					<div class="example-pic" @click="showPic(1)">
+						<img src="../assets/images/backcard.jpg" alt="正面国徽面照">
 					</div>
 					<div class="take-photo idcard-bg">
 						<img src="" alt="">
 					</div>
 				</div>
-				<form action="">
-					<input id="certfirstimgMediaId" type="hidden" name="certfirstimgMediaId" value="">
-					<input id="certsecondimgMediaId" type="hidden" name="certsecondimgMediaId" value="">
-					<input id="usernameShow" type="hidden" name="usernameShow" value="上课了">
-					<input id="idcardShow" type="hidden" name="idcardShow" value="43423432423432417">
-					<div class="stips">请确认身份证信息</div>
-					<div class="part-con">
-						<div class="input-con">
-							<label for="user-name">真实姓名</label>
-                            <span id="user-name">{{$route.params.id}}</span>
-						</div>
-						<div class="input-con">
-							<label for="idcard-num">身份证号</label>
-							<span id="idcard-num"></span>
-						</div>
+				<div class="stips">请确认身份证信息</div>
+				<div class="part-con">
+					<div class="input-con">
+						<label for="user-name">真实姓名</label>
+						<span id="user-name">{{$route.params.id}}</span>
 					</div>
-					<!-- 错误信息提示 -->
-					<input type="hidden" class="errmsgShow" value="${errmsg}">
-				</form>
+					<div class="input-con">
+						<label for="idcard-num">身份证号</label>
+						<span id="idcard-num"></span>
+					</div>
+				</div>
+				<!-- 错误信息提示 -->
+				<input type="hidden" class="errmsgShow" value="${errmsg}">
 			</div>
 		</div>
 		<div class="next-step" @click="submitClick">下一步</div>
-		
+		<transition name="fade">
+		<div class="show-pic" v-if="showType">
+			<div class="show-pic-con">
+				<!-- 关闭按钮 -->
+				<span class="close-pan" @click="closeType"></span>
+				<h3>{{stTitle}}</h3>
+				<div class="big-img">
+					<img :src="stPic" alt="放大图">
+				</div>
+				<div class="big-img-tips"><p v-for="item in stNr">{{item}}</p></div>
+			</div>
+		</div>
+		<div class="wrong-con" v-if="showWrong">
+			<div id="top-bar">
+				<div id="top-bar-btn" class="back-botton" @click="closeWrongT"></div>
+				<div class="title ellipsis">错误示例</div>
+			</div>
+			<div class="wrong">
+				<img src="../assets/images/ex_wrong1.jpg">
+			</div>
+		</div>
+		</transition>
 	</div>
 </template>
 
@@ -58,9 +73,40 @@ import Navpage from '../components/nav.vue'
 export default{
     name: 'upload',
     data() {
-        return {}
+        return {
+			showType: false,
+			stTitle: '',
+			stPic: '',
+			stNr: '',
+			showWrong: false
+		}
     },
     methods:{
+		showWrongT: function() {
+			this.$data.showWrong = true;
+		},
+		closeWrongT: function() {
+			this.$data.showWrong = false;
+		},
+		showPic: function(index) {
+			let $ = this.$data;
+			switch(index) {
+				case 0:
+					$.stPic = require('../assets/images/bigcard_1.jpg');
+					$.stTitle = "身份证头像照拍摄示例图";
+					$.stNr = ['温馨提示：','1.拍摄时将身份证正面置于拍摄界面正中。','2.必须为本人身份证照片，真实有效，且内容清晰可辨。'];
+				break;
+				case 1:
+					$.stPic = require('../assets/images/bigcard_2.jpg');
+					$.stTitle = "身份证国徽照拍摄示例图";
+					$.stNr = ['温馨提示：','1.拍摄时将身份证正面置于拍摄界面正中。','2.必须为本人身份证照片，真实有效，且内容清晰可辨。'];
+				break;
+			}
+			$.showType = true;
+		},
+		closeType: function() {
+			this.$data.showType = false;
+		},
 		submitClick: function() {
 			this.$router.push("/info");
 		}
@@ -244,5 +290,105 @@ export default{
 	height: 100%;
 	color: #333;
 	font: normal 0.65rem/1.9rem "Microsoft YaHei";
+}
+.show-pic {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+}
+.show-pic-con {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 11.81%;
+	width: 84.38%;
+	margin: 0 auto;
+	padding: 1.05rem 0;
+	background-color: #fff;
+}
+/*叉叉*/
+.close-pan {
+	position: absolute;
+	left: 0.25rem;
+	top: 0.25rem;
+	width: 1rem;
+	height: 1rem;
+	background: url('../assets/images/close_bigpic.png') no-repeat center center;
+	-webkit-background-size: 50%;
+	-moz-background-size: 50%;
+	-ms-background-size: 50%;
+	-o-background-size: 50%;
+	background-size: 50%;
+}
+.show-pic-con h3 {
+	margin-bottom: 0.5rem;
+	font: normal 0.65rem/0.75rem "Microsoft YaHei";
+	text-align: center;
+}
+.big-img {
+	width: 100%;
+	margin-bottom: 0.88rem;
+}
+.big-img img {
+	display: block;
+	width: 100%;
+}
+.big-img-tips {
+	padding: 0 0.7rem;
+}
+.big-img-tips p {
+	color: #3c3c3c;
+	font: normal 0.5rem/0.75rem "Microsoft YaHei";
+}
+
+.wrong{
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.wrong img {
+	display: block;
+	width: 100%;
+	padding-top: 2.2rem;
+}
+#top-bar {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 2.2rem;
+	background-color: #03a7e4;
+	z-index: 100;
+}
+.back-botton {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1.2rem;
+	height: 2.2rem;
+	background: url("../assets/images/arrow.png") no-repeat center center;
+	-webkit-background-size: auto 50%;
+	-moz-background-size: auto 50%;
+	-ms-background-size: auto 50%;
+	-o-background-size: auto 50%;
+	background-size: auto 50%;
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+.title {
+	height: 2.2rem;
+	padding: 0 1.2rem;
+	color: #fff;
+	font: bold 0.8rem/2.2rem "SimHei";
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 </style>
