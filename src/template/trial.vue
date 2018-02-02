@@ -18,7 +18,7 @@
 		<h2 class="apply-tip">申请金额</h2>
 		<div class="input-apply">
 			<label for="">金额：</label>
-			<input type="text" 	:placeholder="'最低'+limitMin+'元，最高'+limitMax+'元'" :value="applyment" @blur="checkM" v-model="applyment"/>
+			<input type="text" 	:placeholder="'最低'+limitMin+'元，最高'+limitMax+'元'" :value="applyment" @blur="checkM" v-model="applyment" />
 			<span class="clearfix"><b></b>￥</span>
 		</div>
 		<p class="tips">温馨提示：实际到账金额以审批结果为准</p>
@@ -145,7 +145,7 @@ export default{
 }
 </script>
 
-<style lang="scss">
+<style>
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }

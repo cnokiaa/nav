@@ -23,7 +23,7 @@
                 <!-- 卡号 -->
                 <div class="input-con">
                     <label for="creditcardnum">卡号</label>
-                    <input id="creditcardnum" name="creditcard" type="tel" placeholder="本人信用卡卡号" autocomplete="off" maxlength="20">
+                    <input id="creditcardnum" name="creditcard" type="tel" placeholder="本人信用卡卡号" autocomplete="off" maxlength="20" />
                 </div>
             </div>
 
@@ -37,14 +37,13 @@
                 <!-- 银行 -->
                 <div class="input-con">
                     <label for="debitbank">银行</label>
-                    <input class="chose-input single-list" id="debitbank" name="debitbank" type="hidden" autocomplete="off">
                     <div class="arrow"></div>
                     <span class="cover-input">请选择银行</span>
                 </div>
                 <!-- 卡号 -->
                 <div class="input-con">
                     <label for="bankcardnum">卡号</label>
-                    <input id="bankcardnum" name="debitcard" type="tel" placeholder="本人储蓄卡卡号" autocomplete="off" maxlength="20">
+                    <input id="bankcardnum" name="debitcard" type="tel" placeholder="本人储蓄卡卡号" autocomplete="off" maxlength="20" />
                 </div>
             </div>
         </div>

@@ -5,12 +5,12 @@
             <!-- 手机号 -->
             <div class="input-con clearfix">
                 <label for="userMobile">手机号</label>
-                <input type="tel" id="userMobile" class="user-tel" placeholder="请输入手机号" autocomplete="off" maxlength="11" value="18617120544" readonly="readonly">
+                <input type="tel" id="userMobile" class="user-tel" placeholder="请输入手机号" autocomplete="off" maxlength="11" value="18617120544" readonly="readonly" />
             </div>
             <!-- 验证码 -->
             <div class="input-con clearfix">
                 <label for="verification">验&nbsp;证&nbsp;码</label>
-                <input id="verification" type="tel" placeholder="请输入短信验证码" autocomplete="off" maxlength="6">
+                <input id="verification" type="tel" placeholder="请输入短信验证码" autocomplete="off" maxlength="6" />
                 <div class="send">点击发送</div>
                 <div class="settime">59s后重发</div>
             </div>

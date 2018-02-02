@@ -12,18 +12,18 @@
 			<div class="upload-con clearfix">
 				<div class="pic-part clearfix">
 					<div class="example-pic" @click="showPic(0)">
-						<img src="../assets/images/facecard.jpg" alt="反面照">
+						<img src="../assets/images/facecard.jpg" alt="反面照" />
 					</div>
 					<div class="take-photo idcard-back-bg">
-						<img src="" alt="">
+						<img src="" alt="" />
 					</div>
 				</div>
 				<div class="pic-part clearfix">
 					<div class="example-pic" @click="showPic(1)">
-						<img src="../assets/images/backcard.jpg" alt="正面国徽面照">
+						<img src="../assets/images/backcard.jpg" alt="正面国徽面照" />
 					</div>
 					<div class="take-photo idcard-bg">
-						<img src="" alt="">
+						<img src="" alt="" />
 					</div>
 				</div>
 				<div class="stips">请确认身份证信息</div>
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 				<!-- 错误信息提示 -->
-				<input type="hidden" class="errmsgShow" value="${errmsg}">
+				<input type="hidden" class="errmsgShow" value="${errmsg}" />
 			</div>
 		</div>
 		<div class="next-step" @click="submitClick">下一步</div>
@@ -49,7 +49,7 @@
 				<span class="close-pan" @click="closeType"></span>
 				<h3>{{stTitle}}</h3>
 				<div class="big-img">
-					<img :src="stPic" alt="放大图">
+					<img :src="stPic" alt="放大图" />
 				</div>
 				<div class="big-img-tips"><p v-for="item in stNr">{{item}}</p></div>
 			</div>
@@ -60,7 +60,7 @@
 				<div class="title ellipsis">错误示例</div>
 			</div>
 			<div class="wrong">
-				<img src="../assets/images/ex_wrong1.jpg">
+				<img src="../assets/images/ex_wrong1.jpg" />
 			</div>
 		</div>
 		</transition>
